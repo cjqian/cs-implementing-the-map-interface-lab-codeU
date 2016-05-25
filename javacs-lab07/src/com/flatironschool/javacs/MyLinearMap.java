@@ -1,5 +1,5 @@
-/**
- * 
+/* Indexer Lab
+ * Crystal Qian 
  */
 package com.flatironschool.javacs;
 
@@ -63,8 +63,13 @@ public class MyLinearMap<K, V> implements Map<K, V> {
 	 * @param target
 	 */
 	private Entry findEntry(Object target) {
-        // TODO: fill this in
-		return null;
+        //checks all entries for target
+        for (Entry entry : entries){
+            if (equals(entry.getKey(), target)) return entry;
+        }
+
+        //we didn't find
+        return null;
 	}
 
 	/**
@@ -98,7 +103,13 @@ public class MyLinearMap<K, V> implements Map<K, V> {
 
 	@Override
 	public V get(Object key) {
-        // TODO: fill this in.
+        Entry entry = findEntry(key);
+
+        //if the key exists, return the value
+        if (entry != null)
+            return entry.getValue();
+        
+        //if not, return null    
 		return null;
 	}
 
@@ -118,8 +129,21 @@ public class MyLinearMap<K, V> implements Map<K, V> {
 
 	@Override
 	public V put(K key, V value) {
-        // TODO: fill this in.
-        return null;
+        Entry entry = findEntry(key);
+        V prevValue;
+
+        //if the value is already in our entries list, we update
+        if (entry != null){
+            prevValue = entry.getValue();
+            entry.setValue(value);
+        } else {
+            //if it doens't exist, we add 
+            prevValue = null;
+            entries.add(new Entry(key, value));
+        }
+
+        //return the previous value, or null if there was no previous value
+        return prevValue;
 	}
 
 	@Override
@@ -131,8 +155,19 @@ public class MyLinearMap<K, V> implements Map<K, V> {
 
 	@Override
 	public V remove(Object key) {
-        // TODO: fill this in.
-        return null;
+        Entry entry = findEntry(key);
+        V prevValue;
+
+        //if the mapping exists, we remove 
+        if (entry != null){
+            prevValue = entry.getValue();
+            entries.remove(entry);
+        } else {
+            //if the map contained no mapping, we return null
+            prevValue = null;
+        }
+
+        return prevValue;
 	}
 
 	@Override
